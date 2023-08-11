@@ -16,7 +16,8 @@ and place it in the `scripts` directory. When I `source conditioner.sh`, it gene
 
 ```
 (local)$ source conditioner.sh
-run "conditioner_command" to generate the command
+Run "conditioner_command" to generate the command.
+Run "conditioner_import_dotfile" to import a dotfile.
 (local)$ conditioner_command
 echo 'H4sIAAAAAAACA22NQQqDQBAE776iGQ/e9AXxJYKMs0tGWHeWHUVyydsNEsglx+pqqBZcSsxh3l4zp5U9eu/atHCpa9l9+KujqIHuAXo+ups1pmQ4rabQEcYR76Ff2LXK91+PjIncjirxJyfCbkjGAaKcn58CNRdmuxT5lwAAAA==' | base64 -d | gunzip | bash
 ```
@@ -39,5 +40,5 @@ hello world
 You can also "import" your dotfiles into the `scripts` directory using `conditioner_import_dotfile`. The next time you run `conditioner_command` it will generate a command that appends your dotfile contents onto the matching dotfile on the machine the command is run on.
 
 ### Disclaimer
-As with anything that involves running someone else's code on your machine, this is potentially very dangerous. Use at your own risk.
-This was developed with and for Bash v5. I have done some minimal testing with zsh that seems to indicate that it works there as well, but no guarantees.
+- As with anything that involves running someone else's code on your machine, this is potentially very dangerous. Use at your own risk.
+- This was developed with and for Bash v5. I have done some minimal testing with zsh that seems to indicate that it works there as well, but no guarantees.
