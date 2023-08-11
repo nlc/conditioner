@@ -1,0 +1,38 @@
+cat <<- EOF >> ~/.bashrc
+export EDITOR='/usr/bin/vim'
+
+alias exti=exit
+alias eixt=exit
+
+# Search for the last matching command on up-arrow, not just the last command
+bind '"\e[A":history-search-backward'
+bind '"\e[B":history-search-forward'
+bind '"\e[C": forward-char'
+bind '"\e[D": backward-char'
+
+alias ltr='ls -ltr'
+
+vif() {
+  local query="\$*"
+  local filename=
+
+  if [[ ! "\${query// }" ]]; then
+    filename="\$(fzf --no-multi)"
+  else
+    filename="\$(fzf --no-multi -q "\$query" -1)"
+  fi
+
+  if [[ -n "\$filename" ]]; then
+    vi "\$filename"
+  fi
+}
+
+alias vib='vi ~/.bashrc && source ~/.bashrc'
+
+alias fzf='fzf --multi --bind ctrl-a:select-all'
+
+# alias rgl='rg -l'
+# alias rgi='rg -i'
+# alias rgil='rg -i -l'
+# alias rgli='rg -l -i'
+EOF

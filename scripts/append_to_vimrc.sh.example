@@ -1,0 +1,101 @@
+cat <<- EOF >> ~/.vimrc
+set cindent
+set cinkeys-=0#
+set indentkeys-=0#
+set cinkeys-=:
+set indentkeys-=:
+set expandtab
+set shiftwidth=2
+set nowrap " let's give this a shot and see if we like it
+set backspace=indent,eol,start
+
+set number
+set ruler
+set encoding=utf-8
+
+syntax on
+
+set splitright
+set splitbelow
+command W w
+command Q q
+command Qa qa
+command QA qa
+command Wq wq
+command WQ wq
+command Wa wa
+command WA wa
+command Wqa wqa
+command WQa wqa
+command WQA wqa
+
+imap <tab> <c-p>
+imap jj <esc>
+
+set hlsearch
+set incsearch
+
+" make vim do what I thought it was doing the whole time
+set splitright
+set splitbelow
+
+" Put plugins and dictionaries in this dir
+let vimDir = '$HOME/.vim'
+let &runtimepath.=','.vimDir
+
+" Keep undo history across sessions by storing it in a file
+if has('persistent_undo')
+  let myUndoDir = expand(vimDir . '/undo')
+  " Create dirs
+  call system('mkdir ' . vimDir)
+  call system('mkdir ' . myUndoDir)
+  let &undodir = myUndoDir
+  set undofile
+endif
+
+set list
+set listchars=nbsp:□,tab:➟\ ,trail:∘,extends:▶,precedes:◀
+
+set laststatus=2
+
+command RubyStringKeysToSymbols %s/"\([^"]*\)"=>\([^,}]*\|"[^"]"*\)\([,}]\)/\1: \2\3/g
+command RubyUpdateSymbolsType %s/:\(\w\+\)\s*=>\s*/\1: /g
+
+" Search for selected text, forwards or backwards.
+vnoremap <silent> * :<C-U>
+  \let old_reg=getreg('"')<Bar>let old_regtype=getregtype('"')<CR>
+  \gvy/<C-R>=&ic?'\c':'\C'<CR><C-R><C-R>=substitute(
+  \escape(@", '/\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR><CR>
+  \gVzv:call setreg('"', old_reg, old_regtype)<CR>
+vnoremap <silent> # :<C-U>
+  \let old_reg=getreg('"')<Bar>let old_regtype=getregtype('"')<CR>
+  \gvy?<C-R>=&ic?'\c':'\C'<CR><C-R><C-R>=substitute(
+  \escape(@", '?\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR><CR>
+  \gVzv:call setreg('"', old_reg, old_regtype)<CR>
+
+let &t_ut=''
+command DetectNonAscii /[^\x00-\x7F]
+
+" Large File detection from comments of https://vim.fandom.com/wiki/Faster_loading_of_large_files
+" file is large from 10mb
+let g:LargeFile = 1024 * 1024 * 10
+augroup LargeFile 
+  au!
+  autocmd BufReadPre * let f=getfsize(expand("<afile>")) | if f > g:LargeFile || f == -2 | call LargeFile() | endif
+augroup END
+
+function! LargeFile()
+ " no syntax highlighting etc
+ set eventignore+=FileType
+ " save memory when other file is viewed
+ setlocal bufhidden=unload
+ " is read-only (write with :w new_filename)
+ setlocal buftype=nowrite
+ " no undo possible
+ setlocal undolevels=-1
+ " don't make a copy of a file this size
+ setlocal noswapfile
+ " display message
+ autocmd VimEnter *  echo "The file is larger than " . (g:LargeFile / 1024 / 1024) . " MB, so some options are changed (see .vimrc for details)."
+endfunction
+EOF
