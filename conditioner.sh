@@ -1,4 +1,8 @@
-CONDITIONER_MAIN_DIRECTORY='/Users/nchaverin/conditioner'
+if [[ -z ${CONDITIONER_MAIN_DIRECTORY} ]]; then
+  echo -e "\033[33mWARNING\033[0m: $""CONDITIONER_MAIN_DIRECTORY not found. Assuming current directory."
+  CONDITIONER_MAIN_DIRECTORY=$(pwd)
+fi
+
 CONDITIONER_SCRIPTS_DIRECTORY="${CONDITIONER_MAIN_DIRECTORY}/scripts"
 
 conditioner_compress() {
@@ -11,11 +15,10 @@ conditioner_uncompress() {
 
 conditioner_concatenate() {
   for fname in "$CONDITIONER_SCRIPTS_DIRECTORY/"*.sh; do
+    echo "Adding \"$fname\"" 1>&2
     echo "# $(basename "$fname")"
     cat "$fname"
   done
-
-  echo 'echo "run \"source ~/.bashrc\" to load changes."'
 }
 
 conditioner_compile() {
@@ -24,7 +27,7 @@ conditioner_compile() {
 
 conditioner_command() {
   local compiled="$(conditioner_compile)"
-  printf "echo '%s' | base64 -d | gunzip | bash" "$compiled"
+  printf "echo '%s' | base64 -d | gunzip | bash\n" "$compiled"
 }
 
 conditioner_import_dotfile() {
@@ -54,4 +57,5 @@ conditioner_import_dotfile() {
   echo "Created new script \"$destination_name\""
 }
 
-echo 'run "conditioner_command" to generate the command'
+echo 'Run "conditioner_command" to generate the command.'
+echo 'Run "conditioner_import_dotfile" to import a dotfile.'
