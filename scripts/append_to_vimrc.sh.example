@@ -6,7 +6,7 @@ set cinkeys-=:
 set indentkeys-=:
 set expandtab
 set shiftwidth=2
-set nowrap " let's give this a shot and see if we like it
+set nowrap
 set backspace=indent,eol,start
 
 set number
@@ -35,7 +35,6 @@ imap jj <esc>
 set hlsearch
 set incsearch
 
-" make vim do what I thought it was doing the whole time
 set splitright
 set splitbelow
 
