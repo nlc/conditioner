@@ -1,5 +1,5 @@
 if [[ -z ${CONDITIONER_MAIN_DIRECTORY} ]]; then
-  echo -e "\033[33mWARNING\033[0m: $""CONDITIONER_MAIN_DIRECTORY not found. Assuming current directory."
+  echo -e "Warning: \$CONDITIONER_MAIN_DIRECTORY not found. Assuming current directory."
   CONDITIONER_MAIN_DIRECTORY=$(pwd)
 fi
 
