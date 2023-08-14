@@ -1,4 +1,22 @@
 # conditioner
+```
+      ______
+     / _____\
+  ___|||___
+ /  /      \
+/  /        \
+|  |        |
+|===========|
+|           |
+|conditioner|
+|           |
+|===========|
+|  |        |
+|  |        |
+|  |        |
+/__/________\
+
+```
 ## "Condition" a remote machine's environment to your preferences.
 
 ### What is it?
